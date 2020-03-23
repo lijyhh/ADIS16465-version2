@@ -89,7 +89,6 @@
 /* 如果不使用BrustRead模式，注释掉BURST_READ_FREQUENCE即可 */
 //#define BURST_READ_FREQUENCE      SPI_BaudRatePrescaler_128
 #define NOMAL_READ_FREQUENCE      SPI_BaudRatePrescaler_64
-#define N 32  //32位二进制
 #define PI 3.1415
 
 /*SPI接口定义-开头****************************/
@@ -128,8 +127,10 @@
 #define SPIT_LONG_TIMEOUT         ((uint32_t)(10 * SPIT_FLAG_TIMEOUT))
 
 /*信息输出*/
-#define ADIS_ERROR(fmt,arg...)          printf("<<-ADIS-ERROR->> "fmt"\n",##arg)
-#define ADIS_INFO(fmt,arg...)           printf("<<-ADIS-INFO->> "fmt"\n",##arg)
+#define ADIS_ERROR(fmt,arg...)          printf("\n<<-ADIS-ERROR->> "fmt"\n",##arg)
+#define ADIS_INFO(fmt,arg...)           printf("\n<<-ADIS-INFO->> "fmt"\n",##arg)
+
+#define DEBUG_ADIS(format,...)  printf("File:"__FILE__", Line:%d: \n"format"",__LINE__,##__VA_ARGS__) 
 
 void SPI_ADIS_Init(void);
 u16 SPI_ADIS_SendHalfWord(u16 HalfWord);
@@ -154,6 +155,7 @@ void ADIS16465TransData(float *Data, int var);
 void ADIS_ReadAccBiasData(u16 *buf);
 void ADIS_ReadGyroBiasData(u16 *buf);
 void accel2angle(float *accData,float *angleData);
+void ADIS16465_Init(void);
 
 #endif /* __SPI_ADIS_H */
 

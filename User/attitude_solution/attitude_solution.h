@@ -3,9 +3,9 @@
 
 #include "stm32f4xx.h"
 
-#define Ki 0.008f
-#define Kp 0.3f
-#define dtt 0.05f   //频率倒数，即积分周期
+#define Ki 0.0f
+#define Kp 35.0f
+#define dtt 0.005f   //频率倒数，即积分周期
 
 //定义角度结构体
 struct angle 
@@ -13,7 +13,7 @@ struct angle
 	float pitch,roll,yaw;
 };
 
-void AHRS_update();
+void AHRS_update(void);
 
 
 

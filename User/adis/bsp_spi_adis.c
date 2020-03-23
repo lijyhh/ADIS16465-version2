@@ -146,7 +146,7 @@ uint8_t SPI_ADIS_ReadID(void)
     }
     else
     {
-        ADIS_INFO("ADIS ID = 0x%X",Re);
+        ADIS_INFO("ADIS ID = 0x%X\n",Re);
         return 1;
     }
 
@@ -330,17 +330,17 @@ void Global_Commands(u16 reg_dat)
 void ADIS_ReadAccData(u16 *buf)
 {
     buf[0] = ADIS_ReadReg(X_ACCL_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[1] = ADIS_ReadReg(X_ACCL_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[2] = ADIS_ReadReg(Y_ACCL_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[3] = ADIS_ReadReg(Y_ACCL_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[4] = ADIS_ReadReg(Z_ACCL_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[5] = ADIS_ReadReg(Z_ACCL_OUT);
-    Delay_us(100);
+    Delay_us(50);
 }
 
 /**
@@ -351,46 +351,17 @@ void ADIS_ReadAccData(u16 *buf)
 void ADIS_ReadGyroData(u16 *buf)
 {
     buf[0] = ADIS_ReadReg(X_GYRO_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[1] = ADIS_ReadReg(X_GYRO_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[2] = ADIS_ReadReg(Y_GYRO_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[3] = ADIS_ReadReg(Y_GYRO_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[4] = ADIS_ReadReg(Z_GYRO_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[5] = ADIS_ReadReg(Z_GYRO_OUT);
-    Delay_us(100);
-
-//	Delay_us(50);
-//  /* Select the ADIS: Chip Select low */
-//  SPI_ADIS_CS_LOW();
-//	Delay_us(50);
-
-//  /* Send "RDID " instruction */
-//  SPI_ADIS_SendHalfWord(X_GYRO_LOW);
-//  SPI_ADIS_SendHalfWord(X_GYRO_LOW);
-//	buf[0] = SPI_ADIS_SendHalfWord(Dummy_Byte);
-//  SPI_ADIS_SendHalfWord(X_GYRO_OUT);
-//  SPI_ADIS_SendHalfWord(X_GYRO_OUT);
-//	buf[1] = SPI_ADIS_SendHalfWord(Dummy_Byte);
-//  SPI_ADIS_SendHalfWord(Y_GYRO_LOW);
-//  SPI_ADIS_SendHalfWord(Y_GYRO_LOW);
-//	buf[2] = SPI_ADIS_SendHalfWord(Dummy_Byte);
-//  SPI_ADIS_SendHalfWord(Y_GYRO_OUT);
-//  SPI_ADIS_SendHalfWord(Y_GYRO_OUT);
-//	buf[3] = SPI_ADIS_SendHalfWord(Dummy_Byte);
-//  SPI_ADIS_SendHalfWord(Z_GYRO_LOW);
-//  SPI_ADIS_SendHalfWord(Z_GYRO_LOW);
-//	buf[4] = SPI_ADIS_SendHalfWord(Dummy_Byte);
-//  SPI_ADIS_SendHalfWord(Z_GYRO_OUT);
-//  SPI_ADIS_SendHalfWord(Z_GYRO_OUT);
-//	buf[5] = SPI_ADIS_SendHalfWord(Dummy_Byte);
-//
-//  /* Deselect the ADIS: Chip Select high */
-//  SPI_ADIS_CS_HIGH();
-//	Delay_us(50);
+    Delay_us(50);
 }
 
 
@@ -402,17 +373,17 @@ void ADIS_ReadGyroData(u16 *buf)
 void ADIS_ReadAccBiasData(u16 *buf)
 {
     buf[0] = ADIS_ReadReg(XA_BIAS_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[1] = ADIS_ReadReg(XA_BIAS_HIGH);
-    Delay_us(100);
+    Delay_us(50);
     buf[2] = ADIS_ReadReg(YA_BIAS_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[3] = ADIS_ReadReg(YA_BIAS_HIGH);
-    Delay_us(100);
+    Delay_us(50);
     buf[4] = ADIS_ReadReg(ZA_BIAS_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[5] = ADIS_ReadReg(ZA_BIAS_HIGH);
-    Delay_us(100);
+    Delay_us(50);
 }
 
 /**
@@ -423,17 +394,17 @@ void ADIS_ReadAccBiasData(u16 *buf)
 void ADIS_ReadGyroBiasData(u16 *buf)
 {
     buf[0] = ADIS_ReadReg(XG_BIAS_LOW );
-    Delay_us(100);
+    Delay_us(50);
     buf[1] = ADIS_ReadReg(XG_BIAS_HIGH);
-    Delay_us(100);
+    Delay_us(50);
     buf[2] = ADIS_ReadReg(YG_BIAS_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[3] = ADIS_ReadReg(YG_BIAS_HIGH);
-    Delay_us(100);
+    Delay_us(50);
     buf[4] = ADIS_ReadReg(ZG_BIAS_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[5] = ADIS_ReadReg(ZG_BIAS_HIGH);
-    Delay_us(100);
+    Delay_us(50);
 }
 
 /**
@@ -444,17 +415,17 @@ void ADIS_ReadGyroBiasData(u16 *buf)
 void ADIS_ReadDeltaAngleData(u16 *buf)
 {
     buf[0] = ADIS_ReadReg(X_DELTANG_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[1] = ADIS_ReadReg(X_DELTANG_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[2] = ADIS_ReadReg(Y_DELTANG_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[3] = ADIS_ReadReg(Y_DELTANG_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[4] = ADIS_ReadReg(Z_DELTANG_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[5] = ADIS_ReadReg(Z_DELTANG_OUT);
-    Delay_us(100);
+    Delay_us(50);
 }
 
 /**
@@ -465,17 +436,17 @@ void ADIS_ReadDeltaAngleData(u16 *buf)
 void ADIS_ReadDeltaVelocityData(u16 *buf)
 {
     buf[0] = ADIS_ReadReg(X_DELTVEL_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[1] = ADIS_ReadReg(X_DELTVEL_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[2] = ADIS_ReadReg(Y_DELTVEL_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[3] = ADIS_ReadReg(Y_DELTVEL_OUT);
-    Delay_us(100);
+    Delay_us(50);
     buf[4] = ADIS_ReadReg(Z_DELTVEL_LOW);
-    Delay_us(100);
+    Delay_us(50);
     buf[5] = ADIS_ReadReg(Z_DELTVEL_OUT);
-    Delay_us(100);
+    Delay_us(50);
 }
 
 /**
@@ -596,69 +567,6 @@ void accel2angle(float *accData,float *angleData)
 		angleData[2] = 180 * buf[2] / PI;
 }
 
-
-/**
- * @brief   求补码程序
- * @param   要求补的指针
- * @retval  无
- */
-//void TwosComplementCal(float *buf)
-//{
-//    int binary[N]= {0}; //用于存放最后取得的补码
-//    int a1=0;//保存a的值
-//    int i=0;
-//    float Array=0; //Array是运算后的补码
-//    a1=*buf;
-
-//    if (a1<0)
-//    {   //负数部分开始
-//        binary[0]=1;
-//        a1=-a1;
-
-//        //求原码部分开始
-//        for (i=N-1; i>0; i--)
-//        {
-//            binary[i]=a1%2;
-//            a1=a1/2;
-//        }//求源码部分结束
-
-//        for (i=1; i<N; i++)
-//        {   //负数取反部分，第一位符号位不变。
-//            if (binary[i]==0)
-//            {
-//                binary[i]=1;
-//            }
-//            else binary[i]=0;
-//        }
-
-//        binary[N-1]=binary[N-1]+1;
-
-//        for (i=N-1; i>0; i--)
-//        {
-//            if (binary[i]>1)
-//            {
-//                binary[i]=0;
-//                binary[i-1]=binary[i-1]+1;
-
-//                if (binary[i-1]<2)
-//                {
-//                    break;
-//                }
-//            }
-//        }
-
-//        for (i=0; i<N; i++)
-//        {
-//            Array = Array + ( binary[i]<<(N-i-1) );
-//        }
-//				*buf = Array; //Array是运算后的补码
-//    }
-//    else
-//    {   //正数不用变
-//        *buf = a1;
-//    }
-//}
-
 /**
   * @brief   读取ADIS的原始温度数据
   * @param
@@ -720,6 +628,20 @@ void BrustRead(void)
             ADIS_INFO("Reg[%d] = 0x%X", i, Reg[i]);
         }
     }
+}
+void ADIS16465_Init(void)
+{
+	SPI_ADIS_Init();
+//	//软件复位
+//	Global_Commands(SOFTWARE_RESET);
+//	Delay_ms( 500 );
+//	ADIS_WriteReg(RANG_MDL,0x0003);   //规定陀螺仪测量范围
+//	ADIS_WriteReg(NULL_CNFG,0x3F0A);     //启动加速度计偏差校准
+//	Global_Commands(BIAS_CORRECTION_UPDATE);  //更新偏差校准
+	ADIS_WriteReg(DEC_RATE,0x0009);  //配置采集速率为200Hz,即5ms读取一次	
+//	ADIS_INFO("The firmware revision is 0x%X\r",ADIS_ReadReg(FIRM_REV));  
+//	ADIS_INFO("The serial num is 0x%X\r",ADIS_ReadReg(SERIAL_NUM));
+//	ADIS_INFO("ADIS initialized successfully!");
 }
 /**
   * @brief  等待超时回调函数

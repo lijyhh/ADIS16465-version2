@@ -37,6 +37,7 @@
 
 extern void Delay_us(u32 time);
 extern uint32_t Task_Delay[];
+extern int new_data;
 /** @addtogroup STM32F429I_DISCOVERY_Examples
   * @{
   */
@@ -162,24 +163,18 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f429_439xx.s).                         */
 /******************************************************************************/
-
+extern int ircnt;
 /**
   * @}
   */ 
-
 void IRQHandler(void)
-{
-	Debug_USART_Config();  
-	u16 Temp = 0;
+{	
   //确保是否产生了EXTI Line中断
 	if(EXTI_GetITStatus(INT_EXTI_LINE) != RESET) 
 	{	
-		Temp = ADIS_ReadReg(SERIAL_NUM);
-		printf("SERIAL_NUM is 0x%X\r\n",Temp);
-//		LED_RED;
-//		Delay_us(0xFFFFF);
-//		LED_GREEN;
-//		Delay_us(0xFFFFF);
+		//进入中断表示有新数据到来
+		new_data = 1;
+		ircnt++;
 		//清除中断标志位
 		EXTI_ClearITPendingBit(INT_EXTI_LINE);     
 	}  

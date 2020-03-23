@@ -3,11 +3,13 @@
 #include <math.h>
 
 /* 该文件利用四元数进行姿态解算*/
-//注：本程序中x轴朝向为航行器正前方，绕x轴旋转为横滚角(roll)，y轴为俯仰角（pitch），z轴为偏航角（yaw）
+//注：x轴朝向为航行器正前方，绕x轴旋转为横滚角(roll)，y轴为俯仰角（pitch），z轴为偏航角（yaw）
 
 //全局变量
 float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f; 
 extern struct angle euler;
+//累计误差
+float integral_e[3]={0};
 
 /**
  * @brief   该函数用来对一个数进行（1/开方）运算
@@ -30,7 +32,7 @@ static float invSqrt(float x)
  * @param   
  * @retval  
  */
-void AHRS_update() 
+void AHRS_update(void) 
 {
 	//定义四元数,属于中间变量
 	float q0_temp, q1_temp, q2_temp, q3_temp;  
@@ -43,16 +45,17 @@ void AHRS_update()
 	float Vb[3];
 	//姿态误差
 	float e[3];
-	//累计误差
-	float integral_e[3];
 	//定义姿态角中间变量
 	float g[5];
-	//姿态角
-//	struct angle euler;
 	
 	//读取加速度和陀螺仪的值
 	ADIS16465ReadAcc(Acel);
 	ADIS16465ReadGyro(Gyro);
+	euler.yaw = euler.yaw + ( Gyro[2] - 0.03050 ) * dtt;
+	if(euler.yaw>180.0f || euler.yaw<-180.0f)
+	{
+		euler.yaw = -euler.yaw;
+	}
 	
 	//加速度在-0.005到0.005之间算0
 	if(!((-0.0005f < Acel[0] < 0.0005f) && (-0.0005f < Acel[1] < 0.0005f) && (-0.0005f < Acel[2] < 0.0005f)))
@@ -61,7 +64,7 @@ void AHRS_update()
 			Gyro[0] = Gyro[0] * 0.0174f;
 			Gyro[1] = Gyro[1] * 0.0174f;
 			Gyro[2] = Gyro[2] * 0.0174f;
-			
+					
 			//对加速度进行归一化
 			recipNorm = invSqrt(Acel[0]*Acel[0] + Acel[1]*Acel[1] + Acel[2]*Acel[2]);
 			
@@ -72,15 +75,13 @@ void AHRS_update()
 			//提取物体坐标系下重力分量
 			Vb[0] = 2 * (q1 * q3 - q0 * q2);
 			Vb[1] = 2 * (q0 * q1 + q2 * q3);
-			Vb[2] = 1 - 2 * q1 * q1 - 2 * q2 * q2;
+			Vb[2] = 2 * (q0 * q0 + q3 * q3 - 0.5f);
 			
 			//求取姿态误差(陀螺仪)
 			e[0] = (Acel[1] * Vb[2] - Acel[2] * Vb[1]);
 			e[1] = (Acel[2] * Vb[0] - Acel[0] * Vb[2]);
 			e[2] = (Acel[0] * Vb[1] - Acel[1] * Vb[0]);
 			
-
-			//试试0.47 - 0.51
 			
 			if(Ki > 0.0f)
 			{
@@ -109,16 +110,16 @@ void AHRS_update()
 	Gyro[0] *= 0.5f * dtt;
 	Gyro[1] *= 0.5f * dtt;
 	Gyro[2] *= 0.5f * dtt;
-	
+		
 	q0_temp = q0;
 	q1_temp = q1;
 	q2_temp = q2;
 	q3_temp = q3;
 		
-	q0 = q0_temp + (-q1_temp * Gyro[0] - q2_temp * Gyro[1] - q3_temp * Gyro[2]);
-	q1 = q1_temp + ( q0_temp * Gyro[0] + q2_temp * Gyro[2] - q3_temp * Gyro[1]);
-	q2 = q2_temp + ( q0_temp * Gyro[1] - q1_temp * Gyro[2] + q3_temp * Gyro[0]);
-	q3 = q3_temp + ( q0_temp * Gyro[2] + q1_temp * Gyro[1] - q2_temp * Gyro[0]);
+	q0 = q0 + (-q1_temp * Gyro[0] - q2_temp * Gyro[1] - q3_temp * Gyro[2]);
+	q1 = q1 + ( q0_temp * Gyro[0] + q2_temp * Gyro[2] - q3_temp * Gyro[1]);
+	q2 = q2 + ( q0_temp * Gyro[1] - q1_temp * Gyro[2] + q3_temp * Gyro[0]);
+	q3 = q3 + ( q0_temp * Gyro[2] + q1_temp * Gyro[1] - q2_temp * Gyro[0]);
 	
 	//四元数归一化
 	recipNorm = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
@@ -131,12 +132,12 @@ void AHRS_update()
 	g[0] = 2.0f * ( q1 * q3 - q0 * q2 );
 	g[1] = 2.0f * ( q1 * q0 + q3 * q2 );
 	g[2] = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
-	g[3] = 2.0f * ( q1 * q2 + q0 * q3 );
-	g[4] = q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3;
+//	g[3] = 2.0f * ( q1 * q2 + q0 * q3 );
+//	g[4] = q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3;
 	
-	euler.pitch = -asinf(g[0]) * 57.3f;    //1弧度 = 57.3°
+	euler.pitch = asinf(g[0]) * 57.3f;    //1弧度 = 57.3°
 	euler.roll  = atan2f(g[1] , g[2]) * 57.3f;
-	euler.yaw   = atan2f(g[3] , g[4]) * 57.3f;
+//	euler.yaw   = atan2f(g[3] , g[4]) * 57.3f;
 		
 }
 
@@ -157,5 +158,12 @@ void AHRS_update()
 	止频率w和阻尼系数了有关：
 */
 
+//!!!Kp控制的是相信加速度计还是相信陀螺仪
+//!!!Ki控制的是滤波器消除误差的时间
+//过阻尼：Ki=Kp^2/4
+//欠阻尼：Ki=Kp^2/2
 
+//即使使用了两者，也只可以用于测得飞机的俯仰和横滚角度。对于偏航角度，由于偏航
+//角和重力方向正交，无法用加速度计测量得到，因此还需要采用其他设备来校准测量偏航
+//角度的陀螺仪的漂移值。校准的设备可以使用磁罗盘计（电子磁罗盘，对磁场变化和惯性力敏感）或者GPS。
 

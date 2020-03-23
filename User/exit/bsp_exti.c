@@ -75,7 +75,7 @@ void EXTI_Config(void)
   EXTI_InitStructure.EXTI_Line = INT_EXTI_LINE;
   /* 中断模式 */
   EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  /* 下降沿触发 */
+  /* 上升沿触发 */
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;  
   /* 使能中断/事件线 */
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
