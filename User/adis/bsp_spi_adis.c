@@ -632,16 +632,16 @@ void BrustRead(void)
 void ADIS16465_Init(void)
 {
 	SPI_ADIS_Init();
-//	//软件复位
-//	Global_Commands(SOFTWARE_RESET);
-//	Delay_ms( 500 );
-//	ADIS_WriteReg(RANG_MDL,0x0003);   //规定陀螺仪测量范围
-//	ADIS_WriteReg(NULL_CNFG,0x3F0A);     //启动加速度计偏差校准
-//	Global_Commands(BIAS_CORRECTION_UPDATE);  //更新偏差校准
+	//软件复位
+	Global_Commands(SOFTWARE_RESET);
+	Delay_ms( 500 );
+	ADIS_WriteReg(RANG_MDL,0x0003);   //规定陀螺仪测量范围
+	ADIS_WriteReg(NULL_CNFG,0x3F0A);     //启动加速度计偏差校准
+	Global_Commands(BIAS_CORRECTION_UPDATE);  //更新偏差校准
 	ADIS_WriteReg(DEC_RATE,0x0009);  //配置采集速率为200Hz,即5ms读取一次	
-//	ADIS_INFO("The firmware revision is 0x%X\r",ADIS_ReadReg(FIRM_REV));  
-//	ADIS_INFO("The serial num is 0x%X\r",ADIS_ReadReg(SERIAL_NUM));
-//	ADIS_INFO("ADIS initialized successfully!");
+	ADIS_INFO("The firmware revision is 0x%X\r",ADIS_ReadReg(FIRM_REV));  
+	ADIS_INFO("The serial num is 0x%X\r",ADIS_ReadReg(SERIAL_NUM));
+	ADIS_INFO("ADIS initialized successfully!");
 }
 /**
   * @brief  等待超时回调函数

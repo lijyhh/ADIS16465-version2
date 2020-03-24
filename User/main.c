@@ -1,10 +1,16 @@
 /**
   ******************************************************************************
   * @file    main.c
-  * @author  Dong-HIT
+  * @author  DZH-HIT
   * @version V1.0
   * @date    2020-xx-xx
-  * @brief   SPI ADIS基本读写例程,主要函数在bsp_spi_adis.c中
+  * @brief   ADIS读取数据并进行姿态解算
+	**main.c
+	**stm32f4xx_it.c			该文件中处理SysTick中断和ADIS中断
+	**bsp_spi_adis.c			关于imu的数据读取和初始化函数都在该文件中
+	**bsp_exti.c					配置ADIS中断引脚
+	**kalman.c						卡尔曼滤波的相关代码
+	**attitude_solution.c	姿态解算的相关代码
   ******************************************************************************
   * @attention
   *
@@ -62,7 +68,7 @@ int main(void)
 				{				
 						AHRS_update();
 						printf("z偏航角=%3.5f\n",euler.yaw);
-	//					printf(" y俯仰角=%3.5f, x横滚角=%3.5f\n",euler.pitch,euler.roll);
+//						printf(" y俯仰角=%3.5f, x横滚角=%3.5f，z偏航角=%3.5f\n",euler.pitch,euler.roll,euler.yaw);
 						new_data = 0;				
 				}
 		 }

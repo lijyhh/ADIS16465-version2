@@ -4,7 +4,7 @@
 /**
   ******************************************************************************
   * @file    void Kalman_Filter_Init(KalmanCountData * Kalman_Struct)
-  * @author  willieon
+  * @author  该代码来源于网上
   * @version V0.1
   * @date    Feb-2020
   * @brief   卡尔曼滤波计算中间量初始化

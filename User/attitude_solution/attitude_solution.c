@@ -29,8 +29,8 @@ static float invSqrt(float x)
 
 /**
  * @brief   该函数用来姿态解算
- * @param   
- * @retval  
+ * @param   void
+ * @retval  void
  */
 void AHRS_update(void) 
 {

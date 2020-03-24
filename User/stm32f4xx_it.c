@@ -172,9 +172,8 @@ void IRQHandler(void)
   //确保是否产生了EXTI Line中断
 	if(EXTI_GetITStatus(INT_EXTI_LINE) != RESET) 
 	{	
-		//进入中断表示有新数据到来
+		//全局变量，进入中断表示有新数据到来
 		new_data = 1;
-		ircnt++;
 		//清除中断标志位
 		EXTI_ClearITPendingBit(INT_EXTI_LINE);     
 	}  
