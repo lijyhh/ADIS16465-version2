@@ -10,7 +10,7 @@
 //定义角度结构体
 struct angle 
 {
-	float pitch,roll,yaw;
+	double pitch,roll,yaw;
 };
 
 void AHRS_update(void);
